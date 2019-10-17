@@ -130,7 +130,7 @@ class GithubRepositoryBranch(models.Model):
                 if os.path.isfile(opj(folder, name, mname)):
                     return True
 
-        return map(clean, filter(is_really_module, os.listdir(dir)))
+        return map(clean, filter(is_really_module, os.listdir(folder)))
 
     def _analyze_module_name(self, path, module_name, branch):
         module_version_obj = self.env['odoo.module.version']
