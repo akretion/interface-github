@@ -107,7 +107,7 @@ class GithubRepositoryBranch(models.Model):
                 else:
                     # Analyze folders and create module versions
                     _logger.info("Analyzing repository %s ...", path)
-                    for module_name in self.listdir(path):
+                    for module_name in self.list_dir(path):
                         self._analyze_module_name(path, module_name, branch)
         finally:
             # Reset Original level for module logger
@@ -118,7 +118,7 @@ class GithubRepositoryBranch(models.Model):
     # Copy Paste from Odoo Core
     # This function is for the time being in another function.
     # (Ref: openerp/modules/module.py)
-    def listdir(self, dir):
+    def list_dir(self, folder):
         def clean(name):
             name = os.path.basename(name)
             if name[-4:] == '.zip':
@@ -127,10 +127,10 @@ class GithubRepositoryBranch(models.Model):
 
         def is_really_module(name):
             for mname in MANIFEST_NAMES:
-                if os.path.isfile(opj(dir, name, mname)):
+                if os.path.isfile(opj(folder, name, mname)):
                     return True
 
-        return map(clean, filter(is_really_module, os.listdir(dir)))
+        return map(clean, filter(is_really_module, os.listdir(folder)))
 
     def _analyze_module_name(self, path, module_name, branch):
         module_version_obj = self.env['odoo.module.version']
